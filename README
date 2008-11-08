@@ -1,0 +1,52 @@
+Welcome to radar
+
+radar is free software. Please see the file COPYING for details. 
+
+1. Installation:
+      1.1 retrieve the file radar.tgz from 
+
+      ftp://ftp.ebi.ac.uk/pub/contrib/heger/radar/src/radar.tgz
+      
+      1.2 extract source files. Do this in a temporary build directory.
+
+      tar -xvzf radar.tgz
+
+      1.3 type 
+
+      ./configure; make; make install
+
+2. Usage:
+      Before you find out yourself, the user interface to radar is pretty 
+      basic and not very comfortable and fault-tolerant. The basic usage 
+      is the following:
+
+      radar -P c -Q c -R c [-S c] [-V n]
+
+      where the parameters are
+	-P filename of the multiple alignment
+        -Q filename of lfasta-output
+        -R filename of the sequence
+        -S filename of sequence lfasta-file[optional]
+        -V level of verbosity. 0 is lowest, 4 is highest.
+
+      The multiple alignment file should contain the rows separated
+      by newlines.
+      
+      The sequence file should just contain the sequence.
+      
+      The fasta-files contain the output of the lfasta program.
+
+      See the directory ./example for templates for these files. You
+      can run the example by typing
+
+      cd ./example; ../src/radar -P finc.ma -Q finc.fasta1 -R finc.seq  -S finc.fasta2; cd ..
+      
+      after compiling.
+
+      If you do not have a multiple alignment, you can also run radar
+      in single sequence mode. Simply provide the sequence itself as the multiple
+      alignment and set the corresponding parameter -A to 1:
+
+      cd ./example; ../src/radar -P finc.seq -Q finc.fasta1 -R finc.seq  -S finc.fasta2; cd ..
+
+          

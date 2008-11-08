@@ -1,0 +1,90 @@
+# Copyright (C) 2000 Andreas Heger <heger@ebi.ac.uk>
+#  
+# This file is free software; as a special exception the author gives
+# unlimited permission to copy and/or distribute it, with or without 
+# modifications, as long as this notice is preserved.
+# 
+# This program is distributed in the hope that it will be useful, but
+# WITHOUT ANY WARRANTY, to the extent permitted by law; without even the
+# implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+
+# used configure.in from mysql++ as a template
+
+AC_INIT([radar],[1.1.2])
+
+# get host information
+AC_CANONICAL_HOST
+AC_CANONICAL_SYSTEM
+
+SYSTEM_TYPE="$host_vendor-$host_os"
+MACHINE_TYPE="$host_cpu"
+AC_SUBST(SYSTEM_TYPE) 
+AC_SUBST(MACHINE_TYPE) 
+#
+# Making releases:
+#   RADAR_MICRO_VERSION += 1;
+#   RADAR_INTERFACE_AGE += 1;
+#   RADAR_BINARY_AGE += 1;
+# if any functions have been added, set RADAR_INTERFACE_AGE to 0.
+# if backwards compatibility has been broken,
+# set RADAR_BINARY_AGE _and_ RADAR_INTERFACE_AGE to 0.
+#
+ 
+RADAR_MAJOR_VERSION=1
+RADAR_MINOR_VERSION=1
+RADAR_MICRO_VERSION=2
+RADAR_INTERFACE_AGE=0
+RADAR_BINARY_AGE=0            
+
+RADAR_VERSION=$RADAR_MAJOR_VERSION.$RADAR_MINOR_VERSION.$RADAR_MICRO_VERSION 
+
+VERSION=$RADAR_VERSION
+ 
+AC_SUBST(RADAR_MAJOR_VERSION)
+AC_SUBST(RADAR_MINOR_VERSION)
+AC_SUBST(RADAR_MICRO_VERSION)
+AC_SUBST(RADAR_INTERFACE_AGE)
+AC_SUBST(RADAR_BINARY_AGE)
+AC_SUBST(RADAR_VERSION) 
+
+AM_INIT_AUTOMAKE([radar],$VERSION)
+
+AM_CONFIG_HEADER(config.h)
+
+# check for tools
+AC_PROG_CC
+AC_PROG_CPP
+
+AC_CHECK_LIB(m, rint)
+
+for top_builddir in . .. ../.. $ac_auxdir $ac_auxdir/..; do
+             test -f $top_builddir/configure && break
+done  
+
+AC_OUTPUT(Makefile src/Makefile)
+
+dnl bindir and libdir twice for evaluation
+eval bindir="$bindir"
+eval datadir="$datadir"
+
+echo "
+$PACKAGE configuration
+--------------------
+version			 : $VERSION
+host                     : $host
+ 
+binary install path      : $bindir
+library install path	 : $libdir
+data install path	 : $datadir
+ 
+compiler                 : $CC
+general options
+  CFLAGS                 : $CFLAGS $MORE_WARNINGS_CFLAGS
+  LIBS                   : $LDFLAGS $LIBS
+ 
+"
+
+
+
+
+
