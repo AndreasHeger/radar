@@ -23,6 +23,3 @@
 
 /* Version number of package */
 #undef VERSION
-
-/* Define if using the dmalloc debugging malloc package */
-#undef WITH_DMALLOC
