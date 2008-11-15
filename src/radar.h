@@ -26,20 +26,27 @@ ChangeLog:
 
 */
 
+#ifndef _RADAR_H
+#define _RADAR_H
+
 #if HAVE_CONFIG_H
 #include <config.h>
 #endif
 
-#if WITH_DMALLOC
-#include <dmalloc.h>
-#endif
 
 #include "align.h"
 #include "align_tools.h"
 #include "align_io.h"
 #include "toolbox.h"
 #include "align_lib.h"
+
 #define MAXNREPEATS 500          /* you won't believe it, but 100 might be too small */
+#define UPPER 1
+#define INFINITE 1000
+#define RINFINITE 1000.0
+#define MAX_NITERATIONS 100
+#define MAXRESULTSIZE 1000000
+
 
 typedef struct {
     int * row;
@@ -101,3 +108,9 @@ CALCTYPE NewRegister ();
 void NewestRegister (); 
 int CountAndScoreRepeats();
 void CalculateZScore();
+
+
+int radar_run_from_files( const char *, const char *, const char *, const char *);
+void radar_setLogLevel( int );
+
+#endif

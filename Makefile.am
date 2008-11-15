@@ -11,18 +11,6 @@
 # I include libtool, ltmain, .., because I had so many problems with the
 # links on our SGI-farm.
 
-EXTRA_DIST = reconf configure example
-SUBDIRS = src 
-
-cvs-dist:
-	pkg=`echo "@PACKAGE@" | tr a-z A-Z`; \
-	ver=`echo "@VERSION@" | sed 's/\./_/g'`; \
-	tag="$$pkg-$$ver"; \
-	echo tag=$$tag; \
-	if cvs -n log -h README| egrep -e $$tag > /dev/null; then \
-		echo "VERSION not new; not releasing" 1>&2; \
-		exit 1; \
-	else :; \
-	fi; \
-	cvs tag -c $$tag
-	$(MAKE) dist
+EXTRA_DIST = configure setup.py ez_setup.py
+	
+SUBDIRS = src example pyradar scripts

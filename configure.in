@@ -10,7 +10,7 @@
 
 # used configure.in from mysql++ as a template
 
-AC_INIT([radar],[1.1.2])
+AC_INIT([radar],[1.1.3])
 
 # get host information
 AC_CANONICAL_HOST
@@ -32,7 +32,7 @@ AC_SUBST(MACHINE_TYPE)
  
 RADAR_MAJOR_VERSION=1
 RADAR_MINOR_VERSION=1
-RADAR_MICRO_VERSION=2
+RADAR_MICRO_VERSION=3
 RADAR_INTERFACE_AGE=0
 RADAR_BINARY_AGE=0            
 
@@ -61,7 +61,7 @@ for top_builddir in . .. ../.. $ac_auxdir $ac_auxdir/..; do
              test -f $top_builddir/configure && break
 done  
 
-AC_OUTPUT(Makefile src/Makefile)
+AC_OUTPUT(Makefile src/Makefile scripts/Makefile pyradar/Makefile example/Makefile)
 
 dnl bindir and libdir twice for evaluation
 eval bindir="$bindir"

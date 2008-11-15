@@ -50,18 +50,14 @@ ChangeLog:
 
 /* Version 15a: release for Rodrigo, changed output */
 
-#define UPPER 1
-#define INFINITE 1000
-#define RINFINITE 1000.0
-#define MAX_NITERATIONS 100
-#define MAXRESULTSIZE 1000000
-
 /* gets: ma and fasta-file and sequence */
 
+/* global exported variables - used in main.c */
 VERBOSITY verbose = LL0;
 
-/* global parameters */
+char globalresult[MAXRESULTSIZE];
 
+/* global parameters */
 static int mindiag		= 15;   /* minimum distance for dots from diagonal */
 static int maxlevels           	= 1;    /* max level for sampling diagonals */
 static int maxdiagonals        	= 3;    /* max level for sampling diagonals */
@@ -112,79 +108,17 @@ static CALCTYPE bw_gapelon_i      = -0.4;
 static CALCTYPE bw_gapopen_j      = -4;    /*  gap penalties for sequence */
 static CALCTYPE bw_gapelon_j      = -0.4;     
 
-/* command line parameters */
-static char filename_ma[100] = "";
-static char filename_lfasta[100] = "";
-static char filename_lfasta2[100] = "";
-static char filename_sequence[100] = "";
-
 static int iteration;
-static char globalresult[MAXRESULTSIZE];
 
 #define GAPCHAR '.';
 
-/*--------------start of parameter parsing -----------------------------------*/
-const char * my_progname = "radar";
-
-static void print_version() {
-	printf("%s Version $Id: radar.c,v 1.2 2005/02/17 23:13:32 aheger Exp $\n", my_progname);
-}    
-
-static void usage()
-{
-	print_version();
-	printf("Usage: %s [PARAMETERS] [OPTIONS]\n", my_progname);
-
-	printf("-V		print version and exit.\n");
-	printf("-h		print help and exit.\n");
-	printf("-v #		loglevel (optional).\n");
-	printf("-P #		filename of multiple alignment [%s](required).\n", filename_ma);
-	printf("-Q #		filename of lfasta [%s] (required).\n", filename_lfasta);
-	printf("-R #		filename of sequence [%s] (required).\n", filename_sequence);
-	printf("-S #		filename of lfasta [%s] (optional).\n", filename_lfasta2);
-}
-
-void ParseArguments (int argc, char *argv[]) {
-
-	int c;  
-	extern char * optarg;
-
-	while ((c=getopt(argc, argv, "?Vv:A:B:P:Q:R:S:")) != EOF) {
-		switch(c) {
-		case 'V':
-			print_version(); exit(EXIT_SUCCESS);
-		case 'h':
-		case '?':
-			usage(); exit(EXIT_SUCCESS);
-		case 'v':
-			verbose = atoi(optarg); break;
-		case 'P':	    /* filename sequence1 */
-			strcpy(filename_ma, optarg); break;
-		case 'Q':    	    /* filename sequence2 */
-			strcpy(filename_lfasta, optarg); break;
-		case 'R':    	    /* filename sequence3 */
-			strcpy(filename_sequence, optarg); break;
-		case 'S':    	    /* filename sequence3 */
-			strcpy(filename_lfasta2, optarg); break;
-		}
-	}
-
-	// set pointers to end of options
-	(argc)-=optind;
-	(argv)+=optind;
-
-	if (argc > 0 || 
-			strlen(filename_ma) == 0 ||
-			strlen(filename_lfasta) == 0 ||
-			strlen(filename_sequence) == 0) {
-		usage();
-		exit(EXIT_FAILURE);
-	}
-}
 
 /*--------------end of parameter parsing -----------------------------------*/
 
-
+void radar_setLogLevel(int loglevel)
+{
+	verbose = loglevel;
+}
 
 /*--------------------------------------------------------------------------*/
 void DumpAlignment( ali, title )
@@ -1561,8 +1495,8 @@ void WellcomeMsg()
 {
 
 	if (verbose > LL0) {
-		printf("------ Supplied Parameters ------------------------------------------------\n");
-		printf("%s %s %s\n", filename_ma, filename_sequence, filename_lfasta);
+		/* printf("------ Supplied Parameters ------------------------------------------------\n");
+		printf("%s %s %s\n", filename_ma, filename_sequence, filename_lfasta); */
 		printf("------ Internal Parameters ------------------------------------------------\n");
 		printf("mindiag      : %5i\tmaxlevels    : %5i\tdiagwidth    : %5i\n", mindiag, maxlevels, diagwidth);
 		printf("scalefactor  : %5i\tminsamplediag: %5i\tminlrepeat   : %5i\n", scalefactor, minsamplediag, minlrepeat);
@@ -2075,7 +2009,10 @@ DOTS *reducedots;
 
 }
 
-/* run radar */
+/* run radar 
+ * 
+ * warning: dots are modified here - a diagonal is added.
+ * */
 int run_radar( 
 			int lsequence,
 			SEQTYPE * sequence,
@@ -2160,7 +2097,9 @@ int run_radar(
 		from1 = 1;
 		to1   = lsequence;
 
-		/* start repeatfinding ------------------------------------------------- */
+		/* start repeatfiextern int iteration;
+extern char globalresult[MAXRESULTSIZE];
+		 * nding ------------------------------------------------- */
 		final_ali = CalculateRepeatMA( 
 				from1, to1, 
 				sequence, lsequence,
@@ -2208,11 +2147,11 @@ int run_radar(
 	return 1;
 }
 
-/*-------------------------------------------------------------------*/	    
-/* subroutine does the iteration */
-/*--------------------------------------------------------------------------*/
-int main(argc, argv)
-int argc; char *argv[];
+int radar_run_from_files( 
+		const char * filename_sequence,
+		const char * filename_ma,
+		const char * filename_lfasta,
+		const char * filename_lfasta2)
 {
 	int lprofile;
 	PROFILECOLUMN *profile;
@@ -2221,8 +2160,6 @@ int argc; char *argv[];
 	int lsequence;
 	DOTS *dots;
 	char buffer[100];
-
-	ParseArguments(argc, argv);
 
 	if (verbose > LL1)
 		printf("Starting RADAR Version $Name:  $\n");		
@@ -2316,3 +2253,4 @@ int argc; char *argv[];
 	
 	return EXIT_SUCCESS;
 }
+

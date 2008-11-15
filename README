@@ -2,51 +2,103 @@ Welcome to radar
 
 radar is free software. Please see the file COPYING for details. 
 
-1. Installation:
-      1.1 retrieve the file radar.tgz from 
+1. Requirements
 
-      ftp://ftp.ebi.ac.uk/pub/contrib/heger/radar/src/radar.tgz
+RADAR is written in ANSI C and should compile on most platforms. The
+executable is called 'radar'. There is a python installation, which 
+requires cython (http://cython.org) for compilation and will install
+'radar.py'
+
+Both radar and radar.py require the lfasta program from W.R. 
+Pearson's fasta package. To install this, execute the following
+commands:
+
+	mkdir fasta2
+	cd fasta2
+	wget http://faculty.virginia.edu/wrpearson/fasta/fasta2/fasta2.shar.Z
+	gunzip fasta2.shar.Z
+	sh fasta2.shar
+	make lfasta
+
+Copy the newly built 'lfasta' executable into a directory on your
+path.
+
+2. Installation:
       
-      1.2 extract source files. Do this in a temporary build directory.
+2.1 retrieve the latest from http://sourceforge.net/projects/repeatradar
+           
+2.2 extract source files
+      
+	tar -xvzf radar-x.x.x.tgz
+	cd radar-x.x.x.tgz
+	  
+2.3 configure the package
 
-      tar -xvzf radar.tgz
+	./configure
+      
+2.4 radar.py: installation python interface to radar (recommended)
+      
+	python setup.py install
+      
+	This will install radar.py in your path. Please make sure
+	you have the appropriate permissions.
+      
+2.5 radar: classic installation of C executable
+      
+	make; make install
 
-      1.3 type 
+3. Usage of radar.py
 
-      ./configure; make; make install
+Please execute 
 
-2. Usage:
-      Before you find out yourself, the user interface to radar is pretty 
-      basic and not very comfortable and fault-tolerant. The basic usage 
-      is the following:
+	radar.py -h 
+or 
 
-      radar -P c -Q c -R c [-S c] [-V n]
+	radar.py --help
 
-      where the parameters are
+for usage instructions. Radar.py accepts FASTA formatted input and can process
+multiple sequences and files.
+
+The simplest use case is
+
+	radar.py < ./example/finc.fasta 
+
+4.  Usage of radar (classic C executable)
+
+Before you find out yourself, the user interface to radar is pretty 
+basic and not very comfortable and fault-tolerant, hence the newer radar.py.
+Unless you want to supply a multiple alignment to radar use of radar.py
+is much more comfortable.
+
+The basic usage is the following:
+
+ 	radar -P c -Q c -R c [-S c] [-V n]
+
+where the parameters are
 	-P filename of the multiple alignment
-        -Q filename of lfasta-output
-        -R filename of the sequence
-        -S filename of sequence lfasta-file[optional]
-        -V level of verbosity. 0 is lowest, 4 is highest.
+    -Q filename of lfasta-output
+    -R filename of the sequence
+    -S filename of sequence lfasta-file[optional]
+    -V level of verbosity. 0 is lowest, 4 is highest.
 
-      The multiple alignment file should contain the rows separated
-      by newlines.
+The multiple alignment file should contain the rows separated
+by newlines.
       
-      The sequence file should just contain the sequence.
+The sequence file should just contain the sequence.
       
-      The fasta-files contain the output of the lfasta program.
+The lfasta-files contain the output of the lfasta program.
 
-      See the directory ./example for templates for these files. You
-      can run the example by typing
+See the directory ./example for templates for these files. You
+can run the example by typing
 
-      cd ./example; ../src/radar -P finc.ma -Q finc.fasta1 -R finc.seq  -S finc.fasta2; cd ..
+	./src/radar -P example/finc.ma -Q example/finc.lfasta1 -R example/finc.seq -S example/finc.lfasta2
       
-      after compiling.
+after compilation.
 
-      If you do not have a multiple alignment, you can also run radar
-      in single sequence mode. Simply provide the sequence itself as the multiple
-      alignment and set the corresponding parameter -A to 1:
+If you do not have a multiple alignment, you can also run radar
+in single sequence mode. Simply provide the sequence itself as the multiple
+alignment by providing the sequence twice:
 
-      cd ./example; ../src/radar -P finc.seq -Q finc.fasta1 -R finc.seq  -S finc.fasta2; cd ..
+     ./src/radar -P example/finc.seq -Q example/finc.lfasta1 -R example/finc.seq -S example/finc.lfasta2
 
-          
+     
