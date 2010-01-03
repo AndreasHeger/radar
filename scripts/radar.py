@@ -1,3 +1,4 @@
+#!/bin/env python
 ####
 ####
 ##
@@ -12,7 +13,7 @@
 ##
 ####
 ####
-USAGE = """radar.py [OPTIONS] filenames
+USAGE="""radar.py [OPTIONS] filenames
 
 run radar on one or more fasta-formatted files.
 """
@@ -85,8 +86,6 @@ class RadarRepeat:
             map( str, (self.mNRepeats, self.mScore, self.mLength, self.mLevel)) ,
             "\t" )
         print self.mRepeatUnits
-        
-
 
     ##------------------------------------------------------------------------            
     def BuildResult( self, file ):
@@ -195,7 +194,7 @@ def main():
                         regex_identifier = "^(\S+)" )
 
     (options, args) = parser.parse_args()
-             
+
     if options.stdout != sys.stdout: 
         options.stdout = open(options.stdout, "w")
     if options.stderr != sys.stderr:
@@ -235,7 +234,7 @@ def main():
         shutil.rmtree( tmpdir )
     
 if __name__ == '__main__':
-    main()
+    sys.exit(main())
     
 
 
