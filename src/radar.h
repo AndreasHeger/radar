@@ -110,7 +110,7 @@ int CountAndScoreRepeats();
 void CalculateZScore();
 
 
-int radar_run_from_files( const char *, const char *, const char *, const char *);
-void radar_setLogLevel( int );
+int radar_run_from_files(const char *, const char *, const char *, const char *, unsigned int);
+void radar_setLogLevel(int);
 
 #endif

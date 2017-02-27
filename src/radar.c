@@ -2148,10 +2148,11 @@ extern char globalresult[MAXRESULTSIZE];
 }
 
 int radar_run_from_files( 
-		const char * filename_sequence,
-		const char * filename_ma,
-		const char * filename_lfasta,
-		const char * filename_lfasta2)
+			 const char * filename_sequence,
+			 const char * filename_ma,
+			 const char * filename_lfasta,
+			 const char * filename_lfasta2,
+			 unsigned int random_seed)
 {
 	int lprofile;
 	PROFILECOLUMN *profile;
@@ -2167,7 +2168,12 @@ int radar_run_from_files(
 	WellcomeMsg();
 	globalresult[0] = '\0'; 
 
-	/* read sequence and allocate memory for the masked sequence -------------------------------------------------------*/
+	if (random_seed != 0) 
+	    srand(random_seed);
+	else
+	    srand((unsigned int)clock());
+
+	/* read sequence and allocate memory for the masked sequence -----*/
 	if (verbose > LL1) printf("Reading sequence...");
 	lsequence = ReadSequence( filename_sequence, &sequence );
 	if (verbose > LL1) printf("Done (length=%i)\n", lsequence);

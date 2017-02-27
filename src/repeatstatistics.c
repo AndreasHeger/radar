@@ -119,7 +119,6 @@ double *mean, *standard_deviation;
     CALCTYPE *scores      = Malloc( iterations * sizeof(CALCTYPE));
     int i;
 
-    srand((unsigned int)clock());
     /* get scores for iterations alignments of shuffled sequences against profile---------------------------------------------------*/
     for (i = 0; i < iterations; i++) {
 	ShuffleSequence( rsequence, lsequence );
