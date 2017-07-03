@@ -48,7 +48,7 @@ pyradar = Extension(
 )
 
 setup(name='Radar',
-      version='1.2',
+      version='1.3',
       description='RADAR - Rapid Automatic Detection and Alignment of Repeats',
       author='Andreas Heger & Liisa Holm',
       author_email='andreas.heger@gmail.com',
