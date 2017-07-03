@@ -62,7 +62,7 @@ typedef struct {
 void ProfileInitialize();
 void RegularizeColumn();
 void RegularizeColumnProbability();
-SEQTYPE *GetDecode();
+SEQTYPE *GetDecode(void);
 SEQTYPE Decode();
 char Encode();
 

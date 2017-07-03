@@ -43,6 +43,7 @@ static char filename_ma[100];
 static char filename_lfasta[100];
 static char filename_lfasta2[100];
 static char filename_sequence[100];
+static int random_seed=0;
 
 /* Version 7: 
    -> collect further instances of repeats by simple alignment without wrapping
@@ -125,8 +126,10 @@ void ParseArguments (int argc, char *argv[]) {
 int main(argc, argv)
 int argc; char *argv[];
 {
-
 	ParseArguments(argc, argv);
-
-	return radar_run_from_files( filename_sequence, filename_ma, filename_lfasta, filename_lfasta2 );
+	return radar_run_from_files(filename_sequence,
+				    filename_ma,
+				    filename_lfasta,
+				    filename_lfasta2,
+				    random_seed);
 }

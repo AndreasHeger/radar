@@ -1904,11 +1904,10 @@ DOTS *reducedots;
 
 	if (nrepeats <= 1) {
 		if (verbose > 1) 
-			printf("Leaving, because no/one repeat(s) left after pruning\n");
+		  printf("Leaving, because no/one repeat(s) left after pruning\n");
 		nrepeats = 1;
-		sprintf(resultbuffer, "");
+		sprintf(resultbuffer, "%s", "");
 	} else {
-
 		if (verbose > LL2) {
 			DumpArrayAlignment( intermediate_ali, "Final alignment" );
 			printf ("Scores of %i repeats:\n", nrepeats);
@@ -1934,7 +1933,7 @@ DOTS *reducedots;
 				"---------------------------------------------------------------------------\n");
 
 		if (verbose > LL0) 
-			printf(resultbuffer );
+		  printf("%s", resultbuffer);
 
 		/* check validity of the alignment -------------------------------------------------------------------- */
 
@@ -2246,10 +2245,10 @@ int radar_run_from_files(
 	if (verbose > LL1) 
 		printf("---Final result----------------------------------------------------------\n");
 
-	if (strlen( globalresult ) > 0)
-		printf(globalresult);
+	if (strlen(globalresult) > 0)
+	  printf("%s", globalresult);
 	else
-		printf("No repeats found\n");
+	  printf("No repeats found\n");
 	/* printf("radar finished without problems\n"); web-version*/
 
 	free( sequence );
